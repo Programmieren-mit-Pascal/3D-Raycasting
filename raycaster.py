@@ -25,8 +25,8 @@ world_map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
              [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-WIN_WIDTH = 900
-WIN_HEIGHT = 900
+WIN_WIDTH = 600
+WIN_HEIGHT = 600
 screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("Raycaster")
 clock = pygame.time.Clock()
@@ -73,7 +73,7 @@ while run:
     # Draw player
     player_screen_x = player_x * BLOCK_SIZE
     player_screen_y = player_y * BLOCK_SIZE
-    pygame.draw.circle(screen, (255, 0, 0), (player_screen_x, player_screen_y), 10)
+    pygame.draw.circle(screen, (255, 0, 0), (player_screen_x, player_screen_y), 6)
 
     pygame.display.flip()
             
