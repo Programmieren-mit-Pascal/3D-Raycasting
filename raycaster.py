@@ -61,6 +61,36 @@ while run:
      
     screen.fill((0, 0, 0))
     
+    keys = pygame.key.get_pressed()
+    
+    # Move forwards
+    if keys[pygame.K_UP]:
+        new_x = player_x + MOVE_SPEED * math.cos(player_direction)
+        if world_map[int(player_y)][int(new_x)] == 0:
+            player_x = new_x
+        new_y = player_y - MOVE_SPEED * math.sin(player_direction)
+        if world_map[int(new_y)][int(player_x)] == 0:
+            player_y = new_y
+        
+    # Move backwards
+    if keys[pygame.K_DOWN]:
+        new_x = player_x - MOVE_SPEED * math.cos(player_direction)
+        if world_map[int(player_y)][int(new_x)] == 0:
+            player_x = new_x
+        new_y = player_y + MOVE_SPEED * math.sin(player_direction)
+        if world_map[int(new_y)][int(player_x)] == 0:
+            player_y = new_y
+    
+    # Spin right
+    if keys[pygame.K_RIGHT]:
+        player_direction -= ROTATION_SPEED
+        player_direction %= 2 * math.pi
+    
+    # Spin left
+    if keys[pygame.K_LEFT]:
+        player_direction += ROTATION_SPEED
+        player_direction %= 2 * math.pi
+    
     # Draw 2D world map
     for row in range(len(world_map)):
         for column in range(len(world_map[0])):
