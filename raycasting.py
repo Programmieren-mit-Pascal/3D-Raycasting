@@ -37,7 +37,7 @@ FPS = 60
 LINE_WIDTH = 2
 NUMBER_OF_RAYS = int(WIN_WIDTH / LINE_WIDTH) + 1
 FIELD_OF_VIEW = math.radians(60)
-ANGLE_BETWEEN_RAYS = FIELD_OF_VIEW / (NUMBER_OF_RAYS + 1)
+ANGLE_BETWEEN_RAYS = FIELD_OF_VIEW / (NUMBER_OF_RAYS - 1)
 WALL_SIZE = WIN_HEIGHT * 1.1
 
 MAX_BRIGHTNESS = 200
@@ -127,17 +127,17 @@ while run:
             delta_x = 1 / math.tan(ray_direction)
             ray_row_movement = -1
         else: 
-            # Ray point down.
+            # Ray points down.
             next_horizontal_intersection_x = player_x - (1 - cell_y) / math.tan(ray_direction)
             delta_x = -1 / math.tan(ray_direction)
             ray_row_movement = 1
             
         if ray_direction_degrees > 270 or ray_direction_degrees < 90:
-            # Ray also point right.
+            # Ray also points right.
             next_vertical_intersection_x = math.ceil(player_x) 
             ray_column_movement = 1
         else:
-            # Ray also point left.
+            # Ray also points left.
             next_vertical_intersection_x = math.floor(player_x) 
             ray_column_movement = -1
         
