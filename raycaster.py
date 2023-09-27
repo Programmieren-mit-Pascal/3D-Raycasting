@@ -34,6 +34,12 @@ clock = pygame.time.Clock()
 FPS = 60
 BLOCK_SIZE = WIN_HEIGHT / len(world_map)
 
+# Constants for raycasting
+LINE_WIDTH = 2
+NUMBER_OF_RAYS = int(WIN_WIDTH / LINE_WIDTH) + 1
+FIELD_OF_VIEW = math.radians(50)
+ANGLE_BETWEEN_RAYS = FIELD_OF_VIEW / (NUMBER_OF_RAYS - 1)
+
 # Constants for player movement
 MOVE_SPEED = 0.06
 ROTATION_SPEED = math.radians(1.7)
@@ -90,6 +96,20 @@ while run:
     if keys[pygame.K_LEFT]:
         player_direction += ROTATION_SPEED
         player_direction %= 2 * math.pi
+    
+    # Set values to calculate first ray
+    ray_direction = player_direction + FIELD_OF_VIEW / 2
+    ray_direction %= 2 * math.pi
+    line_screen_x = 0
+    
+    for i in range(NUMBER_OF_RAYS):
+        
+        # ... Mache alle Berechnungen für den Sichtstrahl ...
+        
+        # Set values to calculate the next ray.
+        ray_direction -= ANGLE_BETWEEN_RAYS
+        ray_direction %= 2 * math.pi
+        line_screen_x += LINE_WIDTH
     
     # Draw 2D world map
     for row in range(len(world_map)):
