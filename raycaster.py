@@ -97,6 +97,9 @@ while run:
         player_direction += ROTATION_SPEED
         player_direction %= 2 * math.pi
     
+    # The y-position relative to the cell the player is in. (Between 0 and 1)
+    cell_y = player_y - math.floor(player_y)
+    
     # Set values to calculate first ray
     ray_direction = player_direction + FIELD_OF_VIEW / 2
     ray_direction %= 2 * math.pi
@@ -104,7 +107,27 @@ while run:
     
     for i in range(NUMBER_OF_RAYS):
         
-        # ... Mache alle Berechnungen für den Sichtstrahl ...
+        ray_direction_degrees = math.degrees(ray_direction)
+        
+        if ray_direction_degrees > 0 and ray_direction_degrees < 180:
+            # Ray points up
+            next_horizontal_intersection_x = player_x + cell_y / math.tan(ray_direction)
+            delta_x = 1 / math.tan(ray_direction)
+            ray_row_movement = -1
+        else:
+            # Ray points down
+            next_horizontal_intersection_x = player_x - (1 - cell_y) / math.tan(ray_direction)
+            delta_x = -1 / math.tan(ray_direction)
+            ray_row_movement = 1
+        
+        if ray_direction_degrees > 270 or ray_direction_degrees < 90:
+            # Ray also points right
+            next_vertical_intersection_x = math.ceil(player_x)
+            ray_column_movement = 1
+        else:
+            # Ray also points left
+            next_vertical_intersection_x = math.floor(player_x)
+            ray_column_movement = -1
         
         # Set values to calculate the next ray.
         ray_direction -= ANGLE_BETWEEN_RAYS
