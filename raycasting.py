@@ -150,17 +150,17 @@ while run:
             
             if distance_horizontal_intersection < distance_vertical_intersection:
                 cur_intersection_x = next_horizontal_intersection_x
-                next_horizontal_intersection_x += delta_x
                 ray_block_row += ray_row_movement
+                next_horizontal_intersection_x += delta_x
                 shadow = False
             else:
                 cur_intersection_x = next_vertical_intersection_x
-                next_vertical_intersection_x += ray_column_movement
                 ray_block_column += ray_column_movement
+                next_vertical_intersection_x += ray_column_movement
                 shadow = True
             
             # End the loop if the ray hits a wall.
-            if world_map[ray_block_row][ray_block_column]:
+            if world_map[ray_block_row][ray_block_column] == 1:
                 break
         
         # Length of ray
