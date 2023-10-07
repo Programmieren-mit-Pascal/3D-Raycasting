@@ -107,6 +107,10 @@ while run:
     
     for i in range(NUMBER_OF_RAYS):
         
+        # Cell in which the ray is currently in.
+        ray_block_column = int(player_x)
+        ray_block_row = int(player_y)
+        
         ray_direction_degrees = math.degrees(ray_direction)
         
         if ray_direction_degrees > 0 and ray_direction_degrees < 180:
@@ -128,6 +132,26 @@ while run:
             # Ray also points left
             next_vertical_intersection_x = math.floor(player_x)
             ray_column_movement = -1
+        
+        # Send out the ray until it hits a wall.
+        # Calculate the x-coordinates of the rays intersections with the grid.
+        while True:
+            
+            distance_horizontal_intersection = abs(player_x - next_horizontal_intersection_x)
+            distance_vertical_intersection = abs(player_x - next_vertical_intersection_x)
+            
+            if distance_horizontal_intersection < distance_vertical_intersection:
+                cur_intersection_x = next_horizontal_intersection_x
+                ray_block_row += ray_row_movement
+                next_horizontal_intersection_x += delta_x
+            else:
+                cur_intersection_x = next_vertical_intersection_x
+                ray_block_column += ray_column_movement
+                next_vertical_intersection_x += ray_column_movement
+            
+            # End the loop if the ray hits a wall.
+            if world_map[ray_block_row][ray_block_column] == 1:
+                break
         
         # Set values to calculate the next ray.
         ray_direction -= ANGLE_BETWEEN_RAYS
