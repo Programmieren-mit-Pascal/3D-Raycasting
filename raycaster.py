@@ -153,6 +153,10 @@ while run:
             if world_map[ray_block_row][ray_block_column] == 1:
                 break
         
+        # Length of ray
+        raw_distance = (cur_intersection_x - player_x) / math.cos(ray_direction)
+        distance_without_fisheye = raw_distance * math.cos(ray_direction - player_direction)
+        
         # Set values to calculate the next ray.
         ray_direction -= ANGLE_BETWEEN_RAYS
         ray_direction %= 2 * math.pi
