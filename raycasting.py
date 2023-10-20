@@ -25,8 +25,8 @@ world_map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
              [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-WIN_WIDTH = 1200
-WIN_HEIGHT = 800
+WIN_WIDTH = 800
+WIN_HEIGHT = 600
 screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("Raycaster")
 clock = pygame.time.Clock()
@@ -38,7 +38,7 @@ LINE_WIDTH = 2
 NUMBER_OF_RAYS = int(WIN_WIDTH / LINE_WIDTH) + 1
 FIELD_OF_VIEW = math.radians(50)
 ANGLE_BETWEEN_RAYS = FIELD_OF_VIEW / (NUMBER_OF_RAYS - 1)
-WALL_SIZE = WIN_HEIGHT *  1.1
+WALL_SIZE = WIN_HEIGHT * 1.1
 
 MAX_BRIGHTNESS = 200
 DIM_FACTOR = -10
@@ -84,7 +84,7 @@ while run:
         new_y = player_y - MOVE_SPEED * math.sin(player_direction)
         if world_map[int(new_y)][int(player_x)] == 0:
             player_y = new_y
-        
+    
     # Move backwards
     if keys[pygame.K_DOWN]:
         new_x = player_x - MOVE_SPEED * math.cos(player_direction)
@@ -107,7 +107,7 @@ while run:
     # The y-position relative to the cell the player is in. (Between 0 and 1)
     cell_y = player_y - math.floor(player_y)
     
-    # Set values to calculate first ray
+    # Set values to calculate the first ray
     ray_direction = player_direction + FIELD_OF_VIEW / 2
     ray_direction %= 2 * math.pi
     line_screen_x = 0
@@ -162,7 +162,7 @@ while run:
             # End the loop if the ray hits a wall.
             if world_map[ray_block_row][ray_block_column] == 1:
                 break
-            
+        
         # Length of ray
         raw_distance = (cur_intersection_x - player_x) / math.cos(ray_direction)
         distance_without_fisheye = raw_distance * math.cos(ray_direction - player_direction)
@@ -170,13 +170,13 @@ while run:
         # Vertical line on screen
         line_height = WALL_SIZE / distance_without_fisheye
         line_start = (WIN_HEIGHT / 2) - (line_height / 2)
-        line_start = max(line_start, 0)
+        line_start = max(line_start, 0) # Make sure line_start is not smaller than 0.
         line_end = (WIN_HEIGHT / 2) + (line_height / 2)
-        line_end = min(line_end, WIN_HEIGHT)
+        line_end = min(line_end, WIN_HEIGHT) # Make sure line_end is not bigger than WIN_HEIGHT.
         
         # Brightness / color of line (walls that are further away are darker.)
         brightness = int(DIM_FACTOR * distance_without_fisheye + MAX_BRIGHTNESS)
-        brightness = max(brightness, 0)
+        brightness = max(brightness, 0) # Make sure brightness is not smaller than 0.
         if shadow: brightness //= 2
         color = (0, brightness, 0)
         
@@ -189,5 +189,5 @@ while run:
         line_screen_x += LINE_WIDTH
 
     pygame.display.flip()
-            
+    
 pygame.display.quit()
